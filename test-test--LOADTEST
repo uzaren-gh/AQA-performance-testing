@@ -1,0 +1,32 @@
+# config:
+#   target: "https://training.flooded.io"
+#   phases:
+#     - duration: 30
+#       # maxVusers: 50
+#       arrivalRate: 100
+#       name: "Access test"
+# scenarios:
+#   - name: Getting a resource
+#     flow:
+#       - get:
+#           url: "{{ target }}"
+#           headers:
+#             User-Agent: "I AM ROBOT"
+# config:
+#   target: "https://reqres.in"
+#   phases:
+#     - duration: 10
+#       arrivalRate: 6
+#       name: Artillery the test api
+# scenarios:
+#   - name: patch
+#     flow:
+#       - get:
+#           url: "{{ target }}/api/users/12"
+#       - post:
+#           url: "{{ target }}/api/users/12"
+#           json:
+#             name: "Synepupenko"
+#             job: "razgildiay"
+#             sport: "littreball"
+#             birthday: "38.19.5147"

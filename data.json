@@ -1,0 +1,23 @@
+[
+    {
+        "username": "usname0",
+        "password": "sdfsdff",
+        "id": "646e9174e00859099b4f3095",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ5Njc3OTYsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6InVzbmFtZTBAZnV0dXJhbWluZC5jb20iLCJpZCI6IjY0NmU5MTc0ZTAwODU5MDk5YjRmMzA5NSIsIm1lcmN1cmUiOnsic3Vic2NyaWJlIjpbIi9hY2NvdW50cy82NDZlOTE3NGUwMDg1OTA5OWI0ZjMwOTUiXX19.4uB4aayIg9SvlmKm91cm3ack53fwWg-kFcHcbAzpxqM0Ci94WHswAQI_d4N5bLJccIx7cdu_55HMVt2MQ25RVg",
+        "email": "usname0@futuramind.com"
+    },
+    {
+        "username": "usname1",
+        "password": "sdfsdff",
+        "id": "646e9175501e682e36382730",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ5Njc3OTcsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6InVzbmFtZTFAZnV0dXJhbWluZC5jb20iLCJpZCI6IjY0NmU5MTc1NTAxZTY4MmUzNjM4MjczMCIsIm1lcmN1cmUiOnsic3Vic2NyaWJlIjpbIi9hY2NvdW50cy82NDZlOTE3NTUwMWU2ODJlMzYzODI3MzAiXX19.-OyE5MQln47iKjRNSQwHFXqRcU5jkTns8Vz_MC-hbGdfUwhOcZrcKgyXyukBRiSXhjLmIxa4UuuU7ImiNotcyg",
+        "email": "usname1@futuramind.com"
+    },
+    {
+        "username": "usname2",
+        "password": "sdfsdff",
+        "id": "646e9175278b3b0ba412aeed",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODQ5Njc3OTcsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6InVzbmFtZTJAZnV0dXJhbWluZC5jb20iLCJpZCI6IjY0NmU5MTc1Mjc4YjNiMGJhNDEyYWVlZCIsIm1lcmN1cmUiOnsic3Vic2NyaWJlIjpbIi9hY2NvdW50cy82NDZlOTE3NTI3OGIzYjBiYTQxMmFlZWQiXX19.Oln0VZBMhtedUhfGvEza47NGnsP6bfRqCA5gqBVgzOgowcRAO7khqotda8i1Uuuxi4IcV_SZdPxtRvlh6f-gWA",
+        "email": "usname2@futuramind.com"
+    }
+]

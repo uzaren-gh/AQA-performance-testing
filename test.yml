@@ -1,0 +1,111 @@
+config:
+  target: "http://httpbin.org/"
+  phases:
+    - duration: 1
+      arrivalRate: 1
+      name: Artillery First Test
+  plugins:
+    ensure: {}
+  ensure:
+    thresholds:
+      -http.response_time.p95: 5000
+    conditions:
+      - expression: vusers.failed == 0
+      - expression: "http.request_rate >= 1 and http.response_time.max < 5000"
+scenarios:
+  - name: Getting a resource
+    flow:
+      - get:
+          url: "{{ target }}get"
+      - post:
+          url: "{{ target }}post"
+          json:
+            username: "Test User"
+            password: "Temp Password"
+          capture:
+            - json: "$.json"
+              as: "request_body"
+            - json: "$.headers.Host"
+              as: "host"
+      - log: "Json value from response is: {{request_body}}"
+      - log: "Host value from response is: {{host}}"
+# config:
+#   target: "http://httpbin.org/"
+#   phases:
+#     - duration: 1
+#       arrivalRate: 1
+#       name: Payload test
+#   payload:
+#     - path: "keywords.csv"
+#       fields:
+#         - "keyword1"
+#         - "keyword2"
+#       order: sequence
+# scenarios:
+#   - name: Getting a resource
+#     flow:
+#       - get:
+#           url: "{{ target }}get?param1={{keyword1}}"
+#       - post:
+#           url: "{{ target }}post?param2={{keyword2}}"
+#           json:
+#             username: "Test User"
+#             password: "Temp Password"
+#           capture:
+#             - json: "$.json"
+#               as: "request_body"
+#             - json: "$.headers.Host"
+#               as: "host"
+# config:
+#   target: "https://api.edu.goit.global/api/v1"
+#   phases:
+#     - duration: 1
+#       arrivalRate: 1
+#       name: Hooks practice
+# before:
+#   flow:
+#     - post:
+#         url: "{{target}}/auth/login"
+#         json:
+#           username: "artillery_test@qa.team"
+#           password: "6VcapnJ9X!Rw9UQ"
+#         capture:
+#           - json: "$.accessToken"
+#             as: "accessToken"
+#           - json: "$.accessToken"
+#             as: "accessToken"
+#           - json: "$.refreshToken"
+#             as: "refreshToken"
+# after:
+#   flow:
+#     - get:
+#         url: "{{target}}/auth/logout"
+#         cookie:
+#           refreshToken: "{{refreshToken}}"
+#         headers:
+#           "Authorization": "Bearer {{ accessToken }}"
+# scenarios:
+#   - name: Get UserInfo
+#     flow:
+#       - get:
+#           url: "{{ target }}/auth/getUserInfo"
+#           headers:
+#             "Authorization": "Bearer {{ accessToken }}"
+#           capture:
+#             - json: "$.userInfo.username"
+#               as: "user-name"
+#       - log: "{{ user-name }}"
+
+# config:
+#   target: "http://httpbin.org/"
+#   processor: "processor.js"
+#   phases:
+#     - duration: 1
+#       arrivalRate: 1
+#       name: File Upload
+# scenarios:
+#   - name: Uploading a file
+#     flow:
+#       - post:
+#           url: "{{ target }}anything"
+#           beforeRequest: setupMultipartFormData

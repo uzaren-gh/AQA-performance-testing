@@ -1,0 +1,102 @@
+# Візьміть будь-яке публічне API з вказаного списку
+# - https://github.com/public-apis/public-apis
+# Створіть перфоманс тест для Artillery, описавши його у yaml
+# файлі, використовуючи інструменти і практики з цього курсу:
+
+# Сконфігуруйте фазу (phases) для одного з ТИПІВ навантажувального тестування
+# Додайте GET та POST запити до секції flow
+# Використайте секцію payload та зчитування даних з файлу
+# для конфігурування body POST запиту
+# Додайте валідацію трьох кінцевих метрик (наприклад response_time.p95 чи інших)
+
+config:
+  target: "https://api.mail.gw"
+  payload:
+    - path: "authdata.csv"
+      fields:
+        - "username"
+        - "password"
+      # order: sequence #если захочется по одной паре брать
+      skipHeader: true #пропускаем заголовок таблицы
+      loadAll: true #делаем так, чтобы все пары использовать в цикле
+      name: auth #имя массива для цикла
+    - path: "domain.csv"
+      fields:
+        - "domain"
+
+  environments:
+    local:
+      phases:
+        - duration: 1
+          arrivalRate: 30
+          name: Preliminary (tuning) phase
+      plugins:
+        ensure: {}
+      ensure:
+        thresholds:
+          - http.response_time.p95: 200
+          - http.request_rate: 8
+        conditions:
+          - expression: "http.codes.200 == 40 and http.codes.429 > 1"
+          - expression: vusers.failed > 10
+    # Еще два варианта нагрузки, но на этом сервере только за деньги :-)
+    load:
+      phases:
+        - duration: 10
+          arrivalRate: 100
+          name: Load test configuration
+      ensure:
+        thresholds:
+          - http.response_time.p95: 200
+          - http.request_rate: 100
+        conditions:
+          - expression: "http.codes.200 > 1000 and http.codes.429 == 0"
+          - expression: vusers.failed == 10
+    # Пиковая нагрузка. По идее, должно упасть даже за деньги
+    spike:
+      phases:
+        - duration: 300
+          arrivalRate: 2
+          name: Spike-pre Warm-Up
+        - duration: 10
+          arrivalRate: 20
+          name: Spike test
+        - duration: 300
+          arrivalRate: 2
+          name: Spike-post Cool-down
+
+# # before: #на случай работы с одним аккаунтом, без цикла
+# #   flow:
+# #     - log: "Get auth token"
+# #     - post:
+# #         url: "/token"
+# #         json:
+# #           address: "{{username}}@{{domain}}"
+# #           password: "{{password}}"
+# #         capture:
+# #           - json: "$.token"
+# #             as: "token"
+
+#     - log: "Full e-mail : {{username}}@{{domain}}"
+#     - log: "Authorize token is: {{token}}"
+scenarios:
+  - name: Getting data
+    flow:
+      # Без авторизации
+      - get:
+          url: "/domains"
+      - loop: #для трёх пользователей сразу :-/
+          - post:
+              url: "/token"
+              json:
+                address: "{{$loopElement.username}}@{{domain}}"
+                password: "{{$loopElement.password}}"
+              capture:
+                - json: "$.token"
+                  as: "token"
+          - get:
+              url: "/messages"
+              headers:
+                Authorization: "Bearer {{token}}"
+
+        over: auth
